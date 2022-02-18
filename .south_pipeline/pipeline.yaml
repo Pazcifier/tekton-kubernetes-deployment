@@ -28,7 +28,6 @@ spec:
     - name: deploy-to-kubernetes
       taskRef:
         name: iks-deploy-to-kubernetes
-      runAfter: [vulnerability-advisor]
       params:
         - name: username
           value: $(params.username)
