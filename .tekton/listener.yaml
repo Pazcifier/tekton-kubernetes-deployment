@@ -39,6 +39,8 @@ spec:
             value: $(params.branch)
           - name: revision
             value: $(params.revision)
+          - name: pipeline-debug
+            value: "0"
 ---
 apiVersion: tekton.dev/v1beta1
 kind: TriggerBinding
