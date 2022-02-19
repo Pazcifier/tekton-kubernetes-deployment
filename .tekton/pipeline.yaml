@@ -30,6 +30,8 @@ spec:
         - name: pipeline-debug
           value: $(params.pipeline-debug)
     - name: git-clone
+      runAfter:
+        - extract-repository-url
       taskRef:
         name: git-clone-repo
       params:
@@ -49,6 +51,8 @@ spec:
         - name: output
           workspace: pipeline-ws
     - name: desplegar-app
+      runAfter:
+        - git-clone
       taskRef:
         name: task-desplegar-app
       params:
