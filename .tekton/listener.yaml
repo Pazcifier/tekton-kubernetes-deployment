@@ -43,6 +43,8 @@ spec:
             value: "0"
         workspaces:
           - name: pipeline-ws
+            persistentVolumeClaim:
+              claimName: secure-kube-$(uid)-pvc
 ---
 apiVersion: tekton.dev/v1beta1
 kind: TriggerBinding
