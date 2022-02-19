@@ -5,14 +5,14 @@ metadata:
   name: trigger-template-kubernetes
 spec:
   params:
-  - name: repository
-    description: The git repo
-  - name: branch
-    description: the branch for the git repo
-    default: "master"
-  - name: revision
-    description: the git revision/commit for the git repo
-    default: ""
+    - name: repository
+      description: The git repo
+    - name: branch
+      description: the branch for the git repo
+      default: "master"
+    - name: revision
+      description: the git revision/commit for the git repo
+      default: ""
   resourcetemplates:
     - apiVersion: v1
       kind: PersistentVolumeClaim
@@ -32,12 +32,12 @@ spec:
       spec:
         pipelineRef: pipeline-deploy
       params:
-      - name: repository
-      value: $(params.repository)
-      - name: branch
-      value: $(params.branch)
-      - name: revision
-      value: $(params.revision)
+        - name: repository
+          value: $(params.repository)
+        - name: branch
+          value: $(params.branch)
+        - name: revision
+          value: $(params.revision)
 ---
 apiVersion: tekton.dev/v1beta1
 kind: TriggerBinding
@@ -100,7 +100,7 @@ metadata:
   name: github-commit
 spec:
   triggers:
-    - bindings:  
-        - name: github-commit   
+    - bindings:
+        - name: github-commit
       template:
         name: trigger-template-kubernetes

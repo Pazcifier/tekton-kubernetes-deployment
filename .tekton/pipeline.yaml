@@ -6,45 +6,45 @@ metadata:
 spec:
   params:
     - name: pipeline-debug
-    description: Activar para debuggear pipeline. "1" Activado, "0" Desactivado. "0" por defecto
-    value: "0"
+      description: Activar para debuggear pipeline. "1" Activado, "0" Desactivado. "0" por defecto
+      value: "0"
     - name: repository
-    description: Repositorio de git con los YAMLs a aplicar
-    default: ""
+      description: Repositorio de git con los YAMLs a aplicar
+      default: ""
     - name: branch
-    description: Branch donde se trabajará
-    default: "master"
+      description: Branch donde se trabajará
+      default: "master"
     - name: revision
-    description: Revisión / commit del repositorio
-    default: ""
+      description: Revisión / commit del repositorio
+      default: ""
   workspaces:
     - name: pipeline-ws
   tasks:
     - name: extract-repository-url
-    taskRef:
-      name: toolchain-extract-value
-    params:
-      - name: expression
-        # if a params.repository is given, it takes precedence
-        value: '. as $toolchain | ["$(params.repository)"] | if .[0]=="" then $toolchain | .services[] | select(.toolchain_binding.name=="repo") | .dashboard_url else .[0] end'
-      - name: pipeline-debug
-        value: $(params.pipeline-debug)
+      taskRef:
+        name: toolchain-extract-value
+      params:
+        - name: expression
+          # if a params.repository is given, it takes precedence
+          value: '. as $toolchain | ["$(params.repository)"] | if .[0]=="" then $toolchain | .services[] | select(.toolchain_binding.name=="repo") | .dashboard_url else .[0] end'
+        - name: pipeline-debug
+          value: $(params.pipeline-debug)
     - name: git-clone
-    taskRef:
-      name: git-clone-repo
-    params:
-      - name: continuous-delivery-context-secret
-        value: "secure-properties"
-      - name: ibmcloud-apikey-secret-key
-        value: "toolchain-apikey"
-      - name: repository
-        value: $(tasks.extract-repository-url.results.extracted-value)
-      - name: branch
-        value: $(params.branch)
-      - name: revision
-        value: $(params.revision)
-      - name: pipeline-debug
-        value: $(params.pipeline-debug)
-    workspaces:
-      - name: output
-        workspace: pipeline-ws
+      taskRef:
+        name: git-clone-repo
+      params:
+        - name: continuous-delivery-context-secret
+          value: "secure-properties"
+        - name: ibmcloud-apikey-secret-key
+          value: "toolchain-apikey"
+        - name: repository
+          value: $(tasks.extract-repository-url.results.extracted-value)
+        - name: branch
+          value: $(params.branch)
+        - name: revision
+          value: $(params.revision)
+        - name: pipeline-debug
+          value: $(params.pipeline-debug)
+      workspaces:
+        - name: output
+          workspace: pipeline-ws
