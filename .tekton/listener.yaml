@@ -1,0 +1,106 @@
+---
+apiVersion: tekton.dev/v1beta1
+kind: TriggerTemplate
+metadata:
+  name: trigger-template-kubernetes
+spec:
+  params:
+  - name: repository
+    description: The git repo
+  - name: branch
+    description: the branch for the git repo
+    default: "master"
+  - name: revision
+    description: the git revision/commit for the git repo
+    default: ""
+  resourcetemplates:
+    - apiVersion: v1
+      kind: PersistentVolumeClaim
+      metadata:
+        name: secure-kube-$(uid)-pvc
+      spec:
+        resources:
+          requests:
+            storage: 5Gi
+        volumeMode: Filesystem
+        accessModes:
+          - ReadWriteOnce
+    - apiVersion: tekton.dev/v1beta1
+      kind: PipelineRun
+      metadata:
+        name: deploy-kube-$(uid)
+      spec:
+        pipelineRef: pipeline-deploy
+      params:
+        - name: repository
+        value: $(params.repository)
+        - name: branch
+        value: $(params.branch)
+        - name: revision
+        value: $(params.revision)
+---
+apiVersion: tekton.dev/v1beta1
+kind: TriggerBinding
+metadata:
+  name: trigger-binding-manual
+spec:
+  params:
+---
+apiVersion: tekton.dev/v1beta1
+kind: EventListener
+metadata:
+  name: manual-run
+spec:
+  triggers:
+    - binding:
+        name: trigger-binding-manual
+      template:
+        name: trigger-template-kubernetes
+---
+apiVersion: tekton.dev/v1beta1
+kind: TriggerBinding
+metadata:
+  name: webhook-binding
+spec:
+  params:
+    - name: username
+      value: $(event.name)
+---
+apiVersion: tekton.dev/v1beta1
+kind: EventListener
+metadata:
+  name: webhook-run
+spec:
+  triggers:
+    - binding:
+        name: webhook-binding
+      template:
+        name: trigger-template-kubernetes
+---
+apiVersion: tekton.dev/v1beta1
+kind: TriggerBinding
+metadata:
+  name: github-commit
+spec:
+  params:
+    - name: branch
+      value: $(event.ref)
+    - name: commit-id
+      value: $(event.after)
+    - name: commit-timestamp
+      value: $(event.repository.updated_at)
+    - name: repository
+      value: $(event.repository.html_url)
+    - name: scm-type
+      value: "github"
+---
+apiVersion: tekton.dev/v1beta1
+kind: EventListener
+metadata:
+  name: github-commit
+spec:
+  triggers:
+    - bindings:  
+        - name: github-commit   
+      template:
+        name: trigger-template-kubernetes
