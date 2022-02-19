@@ -41,6 +41,8 @@ spec:
             value: $(params.revision)
           - name: pipeline-debug
             value: "0"
+        workspaces:
+          - name: pipeline-ws
 ---
 apiVersion: tekton.dev/v1beta1
 kind: TriggerBinding
