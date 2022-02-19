@@ -5,7 +5,7 @@ metadata:
   name: task-desplegar-app
 spec:
   params:
-    - name: ibmcloud-apikey-secret-key
+    - name: ibmcloud-apikey
       description: API Key de IBM Cloud
       default:
     - name: cluster-name-or-id
@@ -27,9 +27,9 @@ spec:
       args:
         - |
           echo "=====OBTENIENDO CONTEXTO DEL CLÚSTER====="
-          ibmcloud login --apikey $(params.ibmcloud-apikey-secret-key)
+          ibmcloud login --apikey $(params.ibmcloud-apikey)
           ibmcloud oc cluster config --cluster $(params.cluster-name-or-id)
-          oc login -u apikey -p $(params.ibmcloud-apikey-secret-key)
+          oc login -u apikey -p $(params.ibmcloud-apikey)
 
           echo "=====REEMPLAZAR VALORES DEL YAML====="
           oc process -f $(params.path-deploy-template) -p APP_NAME=$(params.app-name) -p VERSION=$(params.image-version) > deployment.yaml
