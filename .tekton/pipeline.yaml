@@ -49,7 +49,8 @@ spec:
         - name: output
           workspace: pipeline-ws
     - name: desplegar-app
-      taskRef: task-desplegar-app
+      taskRef:
+        name: task-desplegar-app
       params:
         - name: ibmcloud-apikey
           value: "toolchain-apikey"
