@@ -13,6 +13,9 @@ spec:
     - name: revision
       description: the git revision/commit for the git repo
       default: ""
+    - name: ibmcloud-apikey
+      description: API Key IBM Cloud
+      default: ""
   resourcetemplates:
     - apiVersion: v1
       kind: PersistentVolumeClaim
@@ -41,6 +44,8 @@ spec:
             value: $(params.revision)
           - name: pipeline-debug
             value: "0"
+          - name: ibmcloud-apikey
+            value: $(params.ibmcloud-apikey)
         workspaces:
           - name: pipeline-ws
             persistentVolumeClaim:
