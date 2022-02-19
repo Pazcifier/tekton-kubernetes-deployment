@@ -32,12 +32,12 @@ spec:
       spec:
         pipelineRef: pipeline-deploy
       params:
-        - name: repository
-        value: $(params.repository)
-        - name: branch
-        value: $(params.branch)
-        - name: revision
-        value: $(params.revision)
+      - name: repository
+      value: $(params.repository)
+      - name: branch
+      value: $(params.branch)
+      - name: revision
+      value: $(params.revision)
 ---
 apiVersion: tekton.dev/v1beta1
 kind: TriggerBinding
