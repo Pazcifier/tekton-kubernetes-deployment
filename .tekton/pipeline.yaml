@@ -30,7 +30,7 @@ spec:
         - name: continuous-delivery-context-secret
           value: "secure-properties"
         - name: ibmcloud-apikey
-          value: "toolchain-apikey"
+          value: "$(params.ibmcloud-apikey)"
         - name: repository
           value: $(params.repository)
         - name: branch
