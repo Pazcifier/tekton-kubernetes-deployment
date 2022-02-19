@@ -1,47 +1,3 @@
-# ---
-# apiVersion: tekton.dev/v1beta1
-# kind: Task
-# metadata:
-#   name: task-desplegar-app
-# specs:
-#   params:
-#     - name: ibmcloud-apikey
-#       description: API Key de IBM Cloud
-#       type: secret
-#       default:
-#     - name: cluster-name-or-id
-#       description: Nombre del clúster o ID
-#       type: string
-#       default:
-#     - name: path-deploy-template
-#       description: Directorio con el template del despliegue
-#       type: string
-#       default: app
-#     - name: app-name
-#       description: Nombre que se le dará al despliegue
-#       type: string
-#       default: default-name
-#     - name: image-version
-#       description: Versión de la imagen a desplegar
-#       type: string
-#       default: latest
-#   steps:
-#     - name: desplegar-app
-#       image: icr.io/continuous-delivery/pipeline/pipeline-base-image:2.17
-#       command: ["/bin/bash", "-c"]
-#       args:
-#         - |
-#           echo "=====OBTENIENDO CONTEXTO DEL CLÚSTER====="
-#           ibmcloud login --apikey $(params.ibmcloud-apikey)
-#           ibmcloud oc cluster config --cluster $(params.cluster-name-or-id)
-#           oc login -u apikey -p $(params.ibmcloud-apikey)
-
-#           echo "=====REEMPLAZAR VALORES DEL YAML====="
-#           oc process -f $(params.path-deploy-template) -p APP_NAME=$(params.app-name) -p VERSION=$(params.image-version) > deployment.yaml
-
-#           echo "=====APLICAR DESPLIEGUE====="
-#           oc apply -f deployment.yaml
-
 ---
 apiVersion: tekton.dev/v1beta1
 kind: Task
@@ -49,7 +5,7 @@ metadata:
   name: task-desplegar-app
 spec:
   params:
-    - name: ibmcloud-apikey
+    - name: ibmcloud-apikey-secret-key
       description: API Key de IBM Cloud
       default:
     - name: cluster-name-or-id
@@ -71,9 +27,9 @@ spec:
       args:
         - |
           echo "=====OBTENIENDO CONTEXTO DEL CLÚSTER====="
-          ibmcloud login --apikey $(params.ibmcloud-apikey)
+          ibmcloud login --apikey $(params.ibmcloud-apikey-secret-key)
           ibmcloud oc cluster config --cluster $(params.cluster-name-or-id)
-          oc login -u apikey -p $(params.ibmcloud-apikey)
+          oc login -u apikey -p $(params.ibmcloud-apikey-secret-key)
 
           echo "=====REEMPLAZAR VALORES DEL YAML====="
           oc process -f $(params.path-deploy-template) -p APP_NAME=$(params.app-name) -p VERSION=$(params.image-version) > deployment.yaml
