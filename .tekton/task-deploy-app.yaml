@@ -51,23 +51,18 @@ spec:
   params:
     - name: ibmcloud-apikey
       description: API Key de IBM Cloud
-      type: secret
       default:
     - name: cluster-name-or-id
       description: Nombre del clúster o ID
-      type: string
       default:
     - name: path-deploy-template
       description: Directorio con el template del despliegue
-      type: string
       default: app
     - name: app-name
       description: Nombre que se le dará al despliegue
-      type: string
       default: default-name
     - name: image-version
       description: Versión de la imagen a desplegar
-      type: string
       default: latest
   steps:
     - name: desplegar-app
