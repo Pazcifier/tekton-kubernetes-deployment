@@ -48,3 +48,16 @@ spec:
       workspaces:
         - name: output
           workspace: pipeline-ws
+    - name: desplegar-app
+      taskRef: task-desplegar-app
+      params:
+        - name: ibmcloud-apikey
+          value: "toolchain-apikey"
+        - name: cluster-name-or-id
+          value: ""
+        - name: path-deploy-template
+          value: ""
+        - name: app-name
+          value: ""
+        - name: image-version
+          value: ""
