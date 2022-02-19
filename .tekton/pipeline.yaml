@@ -48,7 +48,7 @@ spec:
       taskRef:
         name: task-desplegar-app
       params:
-        - name: ibmcloud-apikey-secret-key
+        - name: ibmcloud-apikey
           value: "toolchain-apikey"
         - name: cluster-name-or-id
           value: ""
