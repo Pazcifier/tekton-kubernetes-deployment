@@ -26,18 +26,18 @@ specs:
       type: string
       default: latest
   steps:
-    name: desplegar-app
-    image: icr.io/continuous-delivery/pipeline/pipeline-base-image:2.17
-    command: ["/bin/bash", "-c"]
-    args:
-      - |
-        echo "=====OBTENIENDO CONTEXTO DEL CLÚSTER====="
-        ibmcloud login --apikey $(params.ibmcloud-apikey)
-        ibmcloud oc cluster config --cluster $(params.cluster-name-or-id)
-        oc login -u apikey -p $(params.ibmcloud-apikey)
+    - name: desplegar-app
+      image: icr.io/continuous-delivery/pipeline/pipeline-base-image:2.17
+      command: ["/bin/bash", "-c"]
+      args:
+        - |
+          echo "=====OBTENIENDO CONTEXTO DEL CLÚSTER====="
+          ibmcloud login --apikey $(params.ibmcloud-apikey)
+          ibmcloud oc cluster config --cluster $(params.cluster-name-or-id)
+          oc login -u apikey -p $(params.ibmcloud-apikey)
 
-        echo "=====REEMPLAZAR VALORES DEL YAML====="
-        oc process -f $(params.path-deploy-template) -p APP_NAME=$(params.app-name) -p VERSION=$(params.image-version) > deployment.yaml
+          echo "=====REEMPLAZAR VALORES DEL YAML====="
+          oc process -f $(params.path-deploy-template) -p APP_NAME=$(params.app-name) -p VERSION=$(params.image-version) > deployment.yaml
 
-        echo "=====APLICAR DESPLIEGUE====="
-        oc apply -f deployment.yaml
+          echo "=====APLICAR DESPLIEGUE====="
+          oc apply -f deployment.yaml
