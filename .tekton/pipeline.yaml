@@ -20,6 +20,18 @@ spec:
     - name: ibmcloud-apikey
       description: API Key de IBM Cloud
       default: ""
+    - name: cluster-name-or-id
+      description: Nombre o ID del clúster
+      default: ""
+    - name: app-name
+      description: Nombre de la aplicación
+      default: "test-name"
+    - name: image-version
+      description: Versión de la imagen, por defecto latest
+      default: "latest"
+    - name: path-deploy-template
+      description: Path al archivo de despliegue
+      default: "app"
   workspaces:
     - name: pipeline-ws
   tasks:
@@ -47,13 +59,13 @@ spec:
         - name: ibmcloud-apikey
           value: "$(params.ibmcloud-apikey)"
         - name: cluster-name-or-id
-          value: ""
+          value: "$(params.cluster-name-or-id)"
         - name: path-deploy-template
-          value: ""
+          value: "$(params.path-deploy-template)"
         - name: app-name
-          value: ""
+          value: "$(params.app-name)"
         - name: image-version
-          value: ""
+          value: "$(params.image-version)"
       workspaces:
         - name: artifacts
           workspace: pipeline-ws
