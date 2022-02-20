@@ -20,14 +20,19 @@ spec:
     - name: image-version
       description: Versión de la imagen a desplegar
       default: latest
+  workspaces:
+    - name: artifacts
+      description: The git repo will be cloned onto the volume backing this workspace
+      mountPath: /artifacts
   steps:
     - name: desplegar-app
       image: icr.io/continuous-delivery/pipeline/pipeline-base-image:2.17
       command: ["/bin/bash", "-c"]
       args:
         - |
+          ls
           echo "=====OBTENIENDO CONTEXTO DEL CLÚSTER====="
-          ibmcloud login --apikey $(params.ibmcloud-apikey)
+          ibmcloud login -r us-south --apikey $(params.ibmcloud-apikey)
           ibmcloud oc cluster config --cluster $(params.cluster-name-or-id)
           oc login -u apikey -p $(params.ibmcloud-apikey)
 

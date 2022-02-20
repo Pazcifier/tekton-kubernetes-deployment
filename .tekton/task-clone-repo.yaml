@@ -130,6 +130,8 @@ spec:
             fi
         done
         echo "Repository $REPOSITORY successfully cloned"
+
+        ls
         # set -e
         # current_dir=$(pwd)
         # if [ -z "$DIRECTORY_NAME" ]; then
