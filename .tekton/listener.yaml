@@ -16,6 +16,9 @@ spec:
     - name: ibmcloud-apikey
       description: API Key IBM Cloud
       default: ""
+    - name: cluster-name-or-id
+      description: Nombre o ID del clúster
+      default: ""
   resourcetemplates:
     - apiVersion: v1
       kind: PersistentVolumeClaim

@@ -34,11 +34,11 @@ spec:
           ls
           echo "=====OBTENIENDO CONTEXTO DEL CLÚSTER====="
           ibmcloud login -r us-south --apikey $(params.ibmcloud-apikey)
-          ibmcloud oc cluster config --cluster "$(params.cluster-name-or-id)"
+          ibmcloud ks cluster config --cluster $(params.cluster-name-or-id)
           oc login -u apikey -p $(params.ibmcloud-apikey)
 
           echo "=====REEMPLAZAR VALORES DEL YAML====="
-          oc process -f $(params.path-deploy-template) -p APP_NAME=$(params.app-name) -p VERSION=$(params.image-version) > deployment.yaml
+          oc process -f $(params.path-deploy-template)/deployment-template.yaml -p APP_NAME=$(params.app-name) -p VERSION=$(params.image-version) > deployment.yaml
 
           echo "=====APLICAR DESPLIEGUE====="
           oc apply -f deployment.yaml
