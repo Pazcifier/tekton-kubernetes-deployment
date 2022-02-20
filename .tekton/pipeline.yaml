@@ -54,3 +54,6 @@ spec:
           value: ""
         - name: image-version
           value: ""
+      workspaces:
+        - name: artifacts
+          workspace: pipeline-ws
