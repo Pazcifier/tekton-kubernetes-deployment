@@ -19,6 +19,15 @@ spec:
     - name: cluster-name-or-id
       description: Nombre o ID del clúster
       default: ""
+    - name: app-name
+      description: Nombre de la aplicación
+      default: "test-name"
+    - name: image-version
+      description: Versión de la imagen, por defecto latest
+      default: "latest"
+    - name: path-deploy-template
+      description: Path al archivo de despliegue
+      default: "app"
   resourcetemplates:
     - apiVersion: v1
       kind: PersistentVolumeClaim
@@ -49,6 +58,14 @@ spec:
             value: "0"
           - name: ibmcloud-apikey
             value: $(params.ibmcloud-apikey)
+          - name: cluster-name-or-id
+            value: $(params.cluster-name-or-id)
+          - name: app-name
+            value: $(params.app-name)
+          - name: image-version
+            value: $(params.image-version)
+          - name: path-deploy-template
+            value: $(params.path-deploy-template)
         workspaces:
           - name: pipeline-ws
             persistentVolumeClaim:
