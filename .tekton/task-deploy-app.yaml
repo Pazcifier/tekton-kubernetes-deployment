@@ -22,8 +22,6 @@ spec:
       default: latest
   workspaces:
     - name: artifacts
-      description: The git repo will be cloned onto the volume backing this workspace
-      mountPath: /artifacts
   steps:
     - name: desplegar-app
       image: icr.io/continuous-delivery/pipeline/pipeline-base-image:2.17
