@@ -28,6 +28,9 @@ spec:
     - name: path-deploy-template
       description: Path al archivo de despliegue
       default: "app"
+    - name: secret-name
+      description: Nombre en el secret
+      default: ""
   resourcetemplates:
     - apiVersion: v1
       kind: PersistentVolumeClaim
@@ -66,6 +69,8 @@ spec:
             value: $(params.image-version)
           - name: path-deploy-template
             value: $(params.path-deploy-template)
+          - name: secret-name
+            value: $(params.secret-name)
         workspaces:
           - name: pipeline-ws
             persistentVolumeClaim:
@@ -95,8 +100,12 @@ metadata:
   name: webhook-binding
 spec:
   params:
-    - name: username
+    - name: app-name
       value: $(event.name)
+    - name: image-version
+      value: $(event.version)
+    - name: secret-name
+      value: $(event.secret-name)
 ---
 apiVersion: tekton.dev/v1beta1
 kind: EventListener

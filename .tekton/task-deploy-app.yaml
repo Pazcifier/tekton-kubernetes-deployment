@@ -20,6 +20,9 @@ spec:
     - name: image-version
       description: Versión de la imagen a desplegar
       default: latest
+    - name: secret-name
+      description: Nombre del secret
+      default: ""
   workspaces:
     - name: artifacts
       description: The git repo will be cloned onto the volume backing this workspace
@@ -38,7 +41,7 @@ spec:
           oc login -u apikey -p $(params.ibmcloud-apikey)
 
           echo "=====REEMPLAZAR VALORES DEL YAML====="
-          oc process -f $(params.path-deploy-template)/deployment-template.yaml -p APP_NAME=$(params.app-name) -p VERSION=$(params.image-version) > deployment.yaml
+          oc process -f $(params.path-deploy-template)/deployment-template.yaml -p APP_NAME=$(params.app-name) -p VERSION=$(params.image-version) -p SECRET_NAME=$(params.secret-name) > deployment.yaml
 
           echo "=====APLICAR DESPLIEGUE====="
           oc apply -f deployment.yaml

@@ -32,6 +32,9 @@ spec:
     - name: path-deploy-template
       description: Path al archivo de despliegue
       default: "app"
+    - name: secret-name
+      description: Nombre en el secret
+      default: ""
   workspaces:
     - name: pipeline-ws
   tasks:
@@ -66,6 +69,8 @@ spec:
           value: "$(params.app-name)"
         - name: image-version
           value: "$(params.image-version)"
+        - name: secret-name
+          value: "$(params.secret-name)"
       workspaces:
         - name: artifacts
           workspace: pipeline-ws
